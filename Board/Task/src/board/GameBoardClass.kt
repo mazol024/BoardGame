@@ -22,12 +22,26 @@ class GameBoardClass<T>(width: Int) :GameBoard<T>, SquareBoardClass(width) {
          this.cellsMap.put(cell,v1)
     }
 
-    override fun filter(predicate: (T?) -> Boolean): Collection<Cell> =
-        this.cellsMap.filter { it -> predicate(it.value) }.keys
+    override fun filter(predicate: (T?) -> Boolean): Collection<Cell> {
+        //this.cellsMap.filter { it -> predicate(it.value) }.keys
+        var cc: Collection<Cell> = mutableListOf()
+        for ((K,V) in this.cellsMap){
+            if (predicate(V)) {
+                cc += K
+            }
+        }
+        return cc
+    }
 
-
-    override fun find(predicate: (T?) -> Boolean): Cell? =
-        this.cellsMap.filter { it-> predicate(it.value)}.keys.single()
+    override fun find(predicate: (T?) -> Boolean): Cell? {
+        //this.cellsMap.filter { it-> predicate(it.value)}.keys.single()
+        for ((K,V) in  this.cellsMap.entries){
+            if (predicate(V)) {
+                return K
+            }
+        }
+        return null
+    }
 
     override fun any(predicate: (T?) -> Boolean): Boolean = this.cellsMap
             .filter { it-> predicate(it.value) }.asSequence().count().equals(0).not()
