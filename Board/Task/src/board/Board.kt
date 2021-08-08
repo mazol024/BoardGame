@@ -43,21 +43,21 @@ interface GameBoard<T> : SquareBoard {
 }
 
 open class SquareBoardClass(override val width: Int) :SquareBoard {
-    val cells: ArrayList<Cell> = ArrayList(width)
+    val cells: ArrayList<Cell> = ArrayList()
     init {
-        for (x in 1..width+1) {
-            for (y in 1..width+1) {
+        for (x in 1..width) {
+            for (y in 1..width) {
                 cells.add(Cell(x,y))
             }
         }
     }
 
-    override fun getCellOrNull(i: Int, j: Int): Cell? {
-        if (i * j > cells.size  ) throw IllegalArgumentException("Your cell is out of board")
-        return cells?.get( width*(i-1) + j - 1)
-    }
+    override fun getCellOrNull(i: Int, j: Int): Cell? = if (i * j > cells.size  )  null else  cells.get( width*(i-1) + j - 1)
 
-    override fun getCell(i: Int, j: Int): Cell = cells.get( width*(i-1) + j - 1)
+    override fun getCell(i: Int, j: Int): Cell {
+        if (i * j > cells.size  ) throw IllegalArgumentException("Your cell is out of board")
+        return cells.get( width*(i-1) + j - 1)
+    }
 
     override fun getAllCells(): Collection<Cell> = cells
 
@@ -65,7 +65,7 @@ open class SquareBoardClass(override val width: Int) :SquareBoard {
         var cellslist : MutableList<Cell> = mutableListOf<Cell>()
         loop@ for ( j in  jRange) {
             if ( j in  1..width) {
-                cellslist.add(cells.get(width*(i-1) + j ))
+                cellslist.add(cells.get(width*(i-1) + j - 1))
             } else break@loop
         }
         return cellslist
@@ -75,7 +75,7 @@ open class SquareBoardClass(override val width: Int) :SquareBoard {
         var cellslist : MutableList<Cell> = mutableListOf<Cell>()
         loop@ for ( i in  iRange) {
             if ( i in  1..width) {
-                cellslist.add(cells.get(width*(i-1) + j ))
+                cellslist.add(cells.get(width*(i-1) + j - 1))
             } else break@loop
         }
         return cellslist
