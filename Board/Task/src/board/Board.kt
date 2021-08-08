@@ -43,7 +43,7 @@ interface GameBoard<T> : SquareBoard {
 }
 
 open class SquareBoardClass(override val width: Int) :SquareBoard {
-    val cells: ArrayList<Cell> = ArrayList()
+    open val cells: ArrayList<Cell> = ArrayList()
     init {
         for (x in 1..width) {
             for (y in 1..width) {
